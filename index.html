@@ -1,0 +1,109 @@
+<html>
+<head>
+<title>India's Cities</title>
+<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<script src="jquery.js"></script>
+</head>
+<style>
+#main{
+border:2px solid grey;
+margin:5px; 
+box-shadow:5px 10px #888888;
+}
+#sub{
+border:1px solid grey;
+}
+</style>
+<body>
+<h1 class="text-danger">Search Cities,Districts And States</h1>
+<div id="main">
+<div class="container">
+     <div class="row">
+		<div class="col-md-5">
+			<br><br><br>
+		    <center><button type="button" class="btn btn-danger" id="btn">Show All</button></center>
+		</div>
+		<div class="col-md-4">
+			<br>
+		    Enter state:<input type="text" id="txt"/><br>
+			<br><center><button type="button" class="btn btn-danger" id="btn1">Search By State</button></center><br>
+		</div>
+		<div class="col-md-3">
+			<br>
+			Enter City:<input type="text" id="t"/><br>
+			<br><center><button type="button" class="btn btn-danger" id="btn2">Search By District</button></center><br>
+		</div>
+    </div>
+	<hr>
+	<div class="row">
+		<div class="col-md-5">
+			<div id="demo"></div>
+		</div>
+		<div class="col-md-4">
+			<div id="mydiv"></div>
+		</div>
+		<div class="col-md-3">
+			<div id="mydiv2"></div>
+		</div>
+    </div>
+</div></div>
+<script>
+var gl_var="";
+$(document).ready(function(){
+
+$.ajax({url:"https://indian-cities-api-nocbegfhqg.now.sh/cities",success:function(data){
+       gl_var=data;
+	  
+     }
+	 });
+	 
+	 $("#btn").click(function(){
+	   content="<table class='table table-hover table-striped table-condensed' style='width:100%'>"
+	 for(x in gl_var)
+	{
+	     content+="<tr><td>"+gl_var[x].City+"</td> <td> "+gl_var[x].District+"</td><td>"+gl_var[x].State+"</td></tr>";;
+     }
+	 content+="</table>";
+	 $("#demo").update(content);
+	
+  });
+  
+  $("#btn1").click(function(){
+	 
+	 var a=$("#txt").val();
+	   content="<table class='table table-hover table-striped table-condensed' style='width:100%'>"
+	   content+="<tr><td> City</td> <td> District</td><td>State</td></tr>";
+	 for(x in gl_var)
+	{
+	if(a==gl_var[x].State)
+	 {
+	     content+="<tr><td> "+gl_var[x].City+"</td> <td> "+gl_var[x].District+"</td><td>"+gl_var[x].State+"</td></tr>";
+     }
+	 }
+	 content+="</table>";
+	 $("#mydiv").append(content);
+	
+  });
+  
+  $("#btn2").click(function(){
+	 
+	 var a=$("#t").val();
+	   content="<table class='table table-hover table-striped table-condensed' style='width:100%'>"
+	   content+="<tr><td>City</td></tr>";
+	 for(x in gl_var)
+	{
+	if(a==gl_var[x].District)
+	 {
+	     content+="<tr><td>"+gl_var[x].City+"</td></tr>";;
+     }
+	 }
+	 content+="</table>";
+	 $("#mydiv2").append(content);
+  });
+});
+</script>
+</html>
